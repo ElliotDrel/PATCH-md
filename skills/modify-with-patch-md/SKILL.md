@@ -1,6 +1,6 @@
 ---
 name: modify-with-patch-md
-description: Make deliberate downstream changes to a PatchMD-managed software fork while preserving their intent. Use whenever a user asks to customize, modify, fix, or add behavior to upstream-owned code in a repository containing PATCH.md.
+description: Make a deliberate downstream change to a PatchMD-managed fork while recording its intent. Use whenever the user asks to customize, modify, fix, patch, or add behavior to upstream-owned code in a repository that contains a root PATCH.md.
 ---
 
 # Modify with PatchMD
@@ -9,10 +9,11 @@ Make the requested change normally and keep its intent durable.
 
 ## 1. Establish scope
 
-1. Read repository instructions and root `PATCH.md`.
-2. Confirm the requested behavior is a deliberate downstream customization.
-3. Reuse an existing entry when the request changes the same intent; otherwise
-   choose a stable kebab-case ID.
+1. Read the repository instructions and root `PATCH.md`.
+2. Confirm the requested behavior is a deliberate downstream customization, not
+   a fix you would send upstream.
+3. Reuse the existing entry when the request changes the same intent. Otherwise
+   choose a new stable kebab-case ID.
 
 Do not create entries for formatting, generated files, lockfile churn,
 environment configuration, ordinary dependency updates, or unrelated additions
@@ -21,29 +22,30 @@ that upstream cannot overwrite.
 ## 2. Implement and record
 
 Implement the customization using the repository's existing architecture. Add
-or update one feature-centered PATCH.md entry containing:
+or update one feature-centered `PATCH.md` entry containing:
 
-- Status;
-- Intent;
-- Why;
-- Behavior;
-- Scope;
-- Reconstruction;
-- optional references.
+- **Status**
+- **Intent**
+- **Why**
+- **Behavior**
+- **Scope**
+- **Reconstruction**
+- optional **References**
 
 Describe outcomes and constraints, not a copy of the code. One entry may cover
 multiple files or commits when they serve one intent.
 
 ## 3. Verify
 
-Run the repository's configured checks. Re-read the diff and PATCH.md entry to
-ensure they describe the same behavior. Fix failures caused by the change.
+Run the repository's configured checks (see the Project configuration section
+below if present). Re-read the diff and the `PATCH.md` entry to confirm they
+describe the same behavior. Fix failures caused by your change.
 
 ## 4. Commit and report
 
-When commits are authorized, keep the implementation and PATCH.md update in the
-same logical commit. Otherwise leave both ready for the user's normal commit
-workflow. Never push without explicit approval.
+When commits are authorized, keep the implementation and the `PATCH.md` update
+in the same logical commit. Otherwise leave both staged for the user's normal
+commit workflow. Never push without explicit approval.
 
-Report the behavior changed, PATCH.md entry created or refreshed, checks run,
-and any unresolved ambiguity.
+Report the behavior changed, the `PATCH.md` entry created or refreshed, the
+checks run, and any unresolved ambiguity.

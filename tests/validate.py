@@ -65,6 +65,16 @@ def validate_template_and_examples() -> None:
     for field in ENTRY_FIELDS:
         assert f"**{field}:**" in template, f"template missing {field}"
 
+    minimal_example = read("examples/minimal.PATCH.md")
+    for upstream_field in ("Repository:", "Branch:"):
+        for name, content in (
+            ("template", template),
+            ("minimal example", minimal_example),
+        ):
+            assert upstream_field in content, f"{name} missing upstream {upstream_field}"
+    assert "No active customizations." in minimal_example
+    assert "No retired customizations." in minimal_example
+
     active_example = read("examples/customization.PATCH.md")
     retired_example = read("examples/retired-fix.PATCH.md")
     for field in ENTRY_FIELDS:
@@ -81,12 +91,16 @@ def validate_skills() -> None:
         assert match, f"{name} has invalid frontmatter"
         frontmatter = match.group(1)
         assert f"name: {name}" in frontmatter, f"{name} has wrong name"
-        assert "description:" in frontmatter, f"{name} has no description"
 
-        metadata = read(f"skills/{name}/agents/openai.yaml")
-        assert "display_name:" in metadata, f"{name} has no display name"
-        assert "short_description:" in metadata, f"{name} has no short description"
-        assert f"${name}" in metadata, f"{name} default prompt does not invoke the skill"
+        description = re.search(r"^description:\s*(.+)$", frontmatter, re.MULTILINE)
+        assert description, f"{name} has no description"
+        # Claude Code truncates description + when_to_use at 1536 characters.
+        assert len(description.group(1)) <= 1536, f"{name} description exceeds 1536 chars"
+
+        # Claude Code skills are SKILL.md only; no agent-vendor adapter folder.
+        assert not (ROOT / "skills" / name / "agents").exists(), (
+            f"{name} still ships an agent-vendor adapter folder"
+        )
 
     update_skill = read("skills/update-with-patch-md/SKILL.md")
     for guarantee in (

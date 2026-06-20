@@ -1,4 +1,0 @@
-interface:
-  display_name: "Update with PatchMD"
-  short_description: "Update a fork without losing custom intent"
-  default_prompt: "Use $update-with-patch-md to update this fork from upstream."

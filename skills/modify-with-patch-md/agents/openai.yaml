@@ -1,4 +1,0 @@
-interface:
-  display_name: "Modify with PatchMD"
-  short_description: "Record fork customizations while editing code"
-  default_prompt: "Use $modify-with-patch-md to make this downstream customization."
