@@ -53,6 +53,11 @@ cover multiple files or commits when they serve one intent.
 Downstream code MUST remain in ordinary Git commits. The matching `PATCH.md`
 entry SHOULD be added or refreshed in the same logical change.
 
+A fork SHOULD make recording reliable by wiring reminders into its own
+workflow — for example agent instructions, a pre-commit warning, or a CI
+check — so that changing upstream-owned code without recording intent is
+surfaced rather than silent.
+
 ### Update
 
 An update process MUST:
@@ -64,6 +69,9 @@ An update process MUST:
 5. prefer the new upstream version when a conflict cannot be resolved safely;
 6. verify the resulting repository with its own checks;
 7. make no push or deployment without user approval.
+
+The update process MAY be wired into the fork's existing upgrade entry points so
+these guarantees run as part of the normal update.
 
 ### Resolve
 

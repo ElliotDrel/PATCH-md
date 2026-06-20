@@ -14,6 +14,10 @@ REQUIRED_FILES = [
     "skills/install-patch-md/SKILL.md",
     "skills/modify-with-patch-md/SKILL.md",
     "skills/update-with-patch-md/SKILL.md",
+    "skills/install-patch-md/assets/agent-instructions.md",
+    "skills/install-patch-md/assets/pre-commit.sh",
+    "skills/install-patch-md/assets/patchmd-ci.yml",
+    "bin/install.js",
 ]
 
 ENTRY_FIELDS = [
@@ -102,7 +106,21 @@ def validate_skills() -> None:
             f"{name} still ships an agent-vendor adapter folder"
         )
 
-    update_skill = read("skills/update-with-patch-md/SKILL.md")
+    # Collapse whitespace so line wrapping never breaks a substring check.
+    def flatten(text: str) -> str:
+        return re.sub(r"\s+", " ", text)
+
+    install_skill = flatten(read("skills/install-patch-md/SKILL.md"))
+    for marker in (
+        ".agents/skills/",          # canonical install location
+        "Propose the wiring",       # the wiring step
+        "assets/agent-instructions.md",
+        "assets/pre-commit.sh",
+        "assets/patchmd-ci.yml",
+    ):
+        assert marker in install_skill, f"install skill missing: {marker}"
+
+    update_skill = flatten(read("skills/update-with-patch-md/SKILL.md"))
     for guarantee in (
         "Never discard uncommitted work",
         "recoverable Git ref",
@@ -110,8 +128,14 @@ def validate_skills() -> None:
         "Ask before reconstructing",
         "Roll back",
         "Stop before push",
+        "Follow any update flow",   # honors install-wired update entry points
     ):
         assert guarantee in update_skill, f"update skill missing guarantee: {guarantee}"
+
+    installer = read("bin/install.js")
+    assert ".agents" in installer and ".claude" in installer, (
+        "installer must place skills in .agents and link them into .claude"
+    )
 
 
 if __name__ == "__main__":

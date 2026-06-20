@@ -1,0 +1,40 @@
+# PatchMD intent check (advisory). Installed by the install-patch-md skill.
+# Flags pull requests that change upstream-owned files without updating PATCH.md.
+# Make it required by changing the final "exit 0" to "exit 1".
+name: PatchMD intent check
+
+on:
+  pull_request:
+
+jobs:
+  patchmd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Warn on unrecorded customizations
+        env:
+          UPSTREAM_REPO: __UPSTREAM_REPO__      # e.g. https://github.com/OWNER/REPO
+          UPSTREAM_BRANCH: __UPSTREAM_BRANCH__  # e.g. main
+        run: |
+          git remote add patchmd-upstream "$UPSTREAM_REPO" 2>/dev/null || true
+          if ! git fetch --quiet patchmd-upstream "$UPSTREAM_BRANCH"; then
+            echo "Could not fetch upstream; skipping PatchMD check."
+            exit 0
+          fi
+          base=$(git merge-base HEAD "patchmd-upstream/$UPSTREAM_BRANCH") || exit 0
+          changed=$(git diff --name-only "$base"...HEAD)
+          if printf '%s\n' "$changed" | grep -qx 'PATCH.md'; then
+            echo "PATCH.md updated in this pull request."
+            exit 0
+          fi
+          owned=$(printf '%s\n' "$changed" | while IFS= read -r f; do
+            [ -n "$f" ] && git cat-file -e "$base:$f" 2>/dev/null && printf '  %s\n' "$f"
+          done)
+          if [ -n "$owned" ]; then
+            echo "PatchMD: upstream-owned files changed without updating PATCH.md:"
+            printf '%s\n' "$owned"
+            echo "If deliberate, record the intent in PATCH.md before merging."
+          fi
+          exit 0

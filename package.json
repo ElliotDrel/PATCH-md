@@ -17,11 +17,16 @@
   },
   "license": "MIT",
   "author": "Elliot Drel",
+  "bin": {
+    "patchmd": "bin/install.js",
+    "patch.md-intent": "bin/install.js"
+  },
   "files": [
     "README.md",
     "SPEC.md",
     "template/",
     "examples/",
-    "skills/"
+    "skills/",
+    "bin/"
   ]
 }

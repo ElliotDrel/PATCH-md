@@ -34,34 +34,46 @@ explains *why the fork differs* so the implementation can change safely.
 
 ## Quick start
 
-From the root of your fork, give your agent either of these prompts.
+Run this from the root of your fork. Either path ends the same way: the
+`install-patch-md` skill sets PatchMD up.
 
-### Run the installer directly
+### Point your agent at the skill
+
+The skill installs itself first, then runs. Give your agent this prompt:
 
 ```text
-Read and follow this skill in the current repository:
+Read and follow this skill, then set up PatchMD in this repo:
 https://raw.githubusercontent.com/ElliotDrel/PATCH-md/main/skills/install-patch-md/SKILL.md
-
-Use it to install PatchMD in this fork.
 ```
 
-### Install it as a skill
-
-Install the
-[install-patch-md skill](skills/install-patch-md/)
-in your agent's skills directory, then run:
+If the skills are already in the repo, this is all you need:
 
 ```text
-Use the install-patch-md skill to add PatchMD to this fork.
+Use the install-patch-md skill to set up PatchMD in this repo.
 ```
 
-The installer creates `PATCH.md`, inventories existing customizations, and
-adapts the other two repository skills to the fork's upstream and verification
-commands:
+### Or install the files with npm first
 
-- `install-patch-md` sets up an existing or new fork.
+```text
+npx patch.md-intent
+```
+
+This copies the three skills into `.agents/skills/` (symlinked into
+`.claude/skills/`) and drops the template in, then tells you to run the setup
+skill.
+
+### What the skills do
+
+- `install-patch-md` installs the skill files, creates `PATCH.md`, inventories
+  existing customizations, and — with your approval — wires PatchMD into how the
+  fork already commits and updates.
 - `modify-with-patch-md` records intent while making custom changes.
-- `update-with-patch-md` safely rebases, repairs, verifies, and reports.
+- `update-with-patch-md` rebases onto upstream, resolves conflicts from recorded
+  intent, verifies, and reports.
+
+Install can also set up optional triggers — agent instructions, a pre-commit
+warning, and a CI check — so a change to upstream-owned code without a `PATCH.md`
+update is surfaced instead of slipping through.
 
 ## What belongs in PATCH.md
 
