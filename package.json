@@ -1,0 +1,26 @@
+{
+  "name": "patch.md-intent",
+  "version": "0.1.0",
+  "description": "A convention for keeping customized software forks updatable. Add a PATCH.md to record the intent behind your fork's deliberate changes.",
+  "keywords": [
+    "patch",
+    "fork",
+    "upstream",
+    "convention",
+    "ai",
+    "agent"
+  ],
+  "homepage": "https://github.com/ElliotDrel/PATCH-md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElliotDrel/PATCH-md.git"
+  },
+  "license": "MIT",
+  "author": "Elliot Drel",
+  "files": [
+    "README.md",
+    "SPEC.md",
+    "template/",
+    "examples/"
+  ]
+}
