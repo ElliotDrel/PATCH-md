@@ -84,6 +84,17 @@ commits when they implement one customization.
 
 See [examples/](examples/) for complete files.
 
+## Design documentation
+
+- [The PatchMD mentality](docs/MENTALITY.md) explains the principles and the
+  boundaries behind the standard.
+- [Origins and inspiration](docs/ORIGINS.md) traces the idea to
+  [Theo Browne (`@t3dotgg`)](https://github.com/t3dotgg), his
+  [original video](https://www.youtube.com/watch?v=G1xqTjoihfo&t=1970s), and
+  related conventions.
+- [The gbrain reference implementation](docs/GBRAIN-REFERENCE.md) documents the
+  exact working fork workflow that informed Draft 0.1.
+
 ## Status
 
 Draft 0.1 is open for practical feedback from maintainers of private and
