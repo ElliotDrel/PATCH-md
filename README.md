@@ -34,24 +34,34 @@ explains *why the fork differs* so the implementation can change safely.
 
 ## Quick start
 
-Copy [template/PATCH.md](template/PATCH.md) to the root of a downstream fork,
-fill in its upstream repository, and record each intentional customization.
+From the root of your fork, give your agent either of these prompts.
 
-For agent-assisted use, make the three skills in [skills/](skills/) available
-to your agent:
+### Run the installer directly
+
+```text
+Read and follow this skill in the current repository:
+https://github.com/ElliotDrel/PATCH-md/blob/main/skills/install-patch-md/SKILL.md
+
+Use it to install PatchMD in this fork.
+```
+
+### Install it as a skill
+
+Install the
+[install-patch-md skill](skills/install-patch-md/)
+in your agent's skills directory, then run:
+
+```text
+Use the install-patch-md skill to add PatchMD to this fork.
+```
+
+The installer creates `PATCH.md`, inventories existing customizations, and
+adapts the other two repository skills to the fork's upstream and verification
+commands:
 
 - `install-patch-md` sets up an existing or new fork.
 - `modify-with-patch-md` records intent while making custom changes.
 - `update-with-patch-md` safely rebases, repairs, verifies, and reports.
-
-Start with:
-
-```text
-Use install-patch-md to add PatchMD to this fork.
-```
-
-The installer adapts the other two skills to the repository's upstream and
-verification commands.
 
 ## What belongs in PATCH.md
 
