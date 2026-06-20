@@ -12,7 +12,7 @@ customize -> record intent -> update upstream -> repair if needed -> review
 ```
 
 PatchMD is a draft proposal, not an established standard or finished product.
-It is inspired by [Theo's PatchMD proposal](https://www.youtube.com/watch?v=G1xqTjoihfo),
+It is inspired by [Theo's "A letter to tech CEOs" talk](https://www.youtube.com/watch?v=G1xqTjoihfo),
 the predictable-file approach of [AGENTS.md](https://agents.md/), and a working
 fork-maintenance workflow first developed in
 [gbrain](https://github.com/ElliotDrel/gbrain/commit/2e3053fa000c6e01fc8dc28f0eb4acaa11381c37). An early project-specific
@@ -40,7 +40,7 @@ From the root of your fork, give your agent either of these prompts.
 
 ```text
 Read and follow this skill in the current repository:
-https://github.com/ElliotDrel/PATCH-md/blob/main/skills/install-patch-md/SKILL.md
+https://raw.githubusercontent.com/ElliotDrel/PATCH-md/main/skills/install-patch-md/SKILL.md
 
 Use it to install PatchMD in this fork.
 ```
