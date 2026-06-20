@@ -1,0 +1,4 @@
+interface:
+  display_name: "Install PatchMD"
+  short_description: "Add PatchMD safely to a downstream fork"
+  default_prompt: "Use $install-patch-md to add PatchMD to this fork."
