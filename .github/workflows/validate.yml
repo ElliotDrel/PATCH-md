@@ -16,3 +16,4 @@ jobs:
         with:
           python-version: "3.x"
       - run: python tests/validate.py
+      - run: node --check bin/install.js
