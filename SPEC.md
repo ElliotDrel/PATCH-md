@@ -1,10 +1,12 @@
-# PatchMD Draft 0.1
+# PatchMD Draft 0.2
 
 PatchMD is an AI-readable record of the intent behind deliberate customizations
 to a downstream software fork.
 
-The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** describe this draft's
-requirements.
+The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are to be
+interpreted as described in BCP 14 ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119)
+and [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)) when they appear in
+capitals.
 
 ## File
 
@@ -12,6 +14,17 @@ requirements.
 - The file MUST be readable as ordinary Markdown without special tooling.
 - A repository MUST have at most one authoritative `PATCH.md`.
 - The file SHOULD identify the upstream repository and branch.
+- The file MUST identify the PatchMD specification version it follows.
+
+## Versioning and compatibility
+
+This document defines format version `0.2`. Draft versions may make breaking
+changes. A consumer MUST reject unsupported major versions clearly and SHOULD
+preserve unknown fields when rewriting a file. Additional fields are allowed;
+their presence MUST NOT change the meaning of required fields.
+
+A file written for Draft 0.1 can be upgraded to 0.2 by adding `PatchMD version:
+0.2` under `Upstream`; its entry format is otherwise compatible.
 
 ## Scope
 
@@ -99,3 +112,8 @@ otherwise adopted.
 PatchMD does not require a specific agent, package manager, programming
 language, or upgrade program. Tools MAY automate this lifecycle if they preserve
 the guarantees above.
+
+The files under [`conformance/`](conformance/) are normative examples. A
+conforming producer MUST produce the required structure shown by the valid
+fixture. A conforming consumer MUST report the defects annotated in the invalid
+fixtures rather than silently treating them as valid PatchMD records.

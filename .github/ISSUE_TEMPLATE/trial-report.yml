@@ -1,0 +1,27 @@
+name: Fork trial report
+description: Report a PatchMD lifecycle trial in a maintained fork.
+title: "trial: "
+labels: [trial]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: PatchMD version
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Fork and update context
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Lifecycle outcome and verification
+    validations:
+      required: true
+  - type: textarea
+    id: ambiguity
+    attributes:
+      label: Ambiguity or failure

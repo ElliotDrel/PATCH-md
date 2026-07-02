@@ -1,6 +1,6 @@
 {
   "name": "patch.md-intent",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A convention for keeping customized software forks updatable. Add a PATCH.md to record the intent behind your fork's deliberate changes.",
   "keywords": [
     "patch",
@@ -17,16 +17,34 @@
   },
   "license": "MIT",
   "author": "Elliot Drel",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js && python tests/validate.py",
+    "validate": "npm test && node tests/validate-yaml.js && node --check bin/install.js",
+    "prepublishOnly": "npm run validate"
+  },
   "bin": {
     "patchmd": "bin/install.js",
     "patch.md-intent": "bin/install.js"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "README.md",
     "SPEC.md",
+    "CHANGELOG.md",
+    "SECURITY.md",
     "template/",
     "examples/",
+    "conformance/",
     "skills/",
     "bin/"
-  ]
+  ],
+  "devDependencies": {
+    "yaml": "^2.8.0"
+  }
 }

@@ -1,6 +1,7 @@
 # PatchMD
 
-PatchMD is a proposed convention for keeping customized software updatable.
+PatchMD is a versioned draft convention for keeping customized software
+updatable.
 
 A root `PATCH.md` records the **intent** behind deliberate changes made to a
 fork. The code and Git commits remain the implementation. The document gives a
@@ -11,7 +12,8 @@ changes when upstream moves on.
 customize -> record intent -> update upstream -> repair if needed -> review
 ```
 
-PatchMD is a draft proposal, not an established standard or finished product.
+PatchMD 0.2 is ready for structured trials in maintained downstream forks. It
+remains a draft until the graduation criteria below are met.
 It is inspired by [Theo's "A letter to tech CEOs" talk](https://www.youtube.com/watch?v=G1xqTjoihfo),
 the predictable-file approach of [AGENTS.md](https://agents.md/), and a working
 fork-maintenance workflow first developed in
@@ -43,7 +45,7 @@ The skill installs itself first, then runs. Give your agent this prompt:
 
 ```text
 Read and follow this skill, then set up PatchMD in this repo:
-https://raw.githubusercontent.com/ElliotDrel/PATCH-md/main/skills/install-patch-md/SKILL.md
+https://raw.githubusercontent.com/ElliotDrel/PATCH-md/v0.2.0/skills/install-patch-md/SKILL.md
 ```
 
 If the skills are already in the repo, this is all you need:
@@ -86,7 +88,7 @@ commits when they implement one customization.
 
 ## Specification
 
-[SPEC.md](SPEC.md) defines Draft 0.1. The format is intentionally small:
+[SPEC.md](SPEC.md) defines Draft 0.2. The format is intentionally small:
 
 - one root `PATCH.md`;
 - one stable ID per customization;
@@ -105,13 +107,22 @@ See [examples/](examples/) for complete files.
   [original video](https://www.youtube.com/watch?v=G1xqTjoihfo&t=1970s), and
   related conventions.
 - [The gbrain reference implementation](docs/GBRAIN-REFERENCE.md) documents the
-  exact working fork workflow that informed Draft 0.1.
+  exact working fork workflow that informed the first draft.
 
-## Status
+## Status and graduation
 
-Draft 0.1 is open for practical feedback from maintainers of private and
-downstream forks. Keep proposals simple and grounded in a real maintenance
-problem.
+Draft 0.2 is open for practical feedback. PatchMD will graduate to 1.0 after:
+
+- two maintained forks outside the reference implementation complete an
+  install, customization, upstream update, conflict reconstruction, and patch
+  retirement cycle;
+- the maintainers publish the results and resolve any specification ambiguity
+  those trials expose;
+- the installer and workflow assets pass the supported-platform test matrix;
+- no known issue can cause uncommitted work or fork intent to be lost.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the proposal process and
+[CHANGELOG.md](CHANGELOG.md) for compatibility notes.
 
 ## License
 

@@ -8,6 +8,7 @@ survive an upstream update.
 
 - Repository: `https://github.com/OWNER/REPOSITORY`
 - Branch: `main`
+- PatchMD version: `0.2`
 
 ## Active customizations
 

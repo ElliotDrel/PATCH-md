@@ -36,17 +36,24 @@ def read(relative_path: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def repository_markdown():
+    return (
+        path for path in ROOT.rglob("*.md")
+        if not any(part in {".git", "node_modules"} for part in path.parts)
+    )
+
+
 def validate_repository() -> None:
     for relative_path in REQUIRED_FILES:
         read(relative_path)
 
     markdown = "\n".join(
         path.read_text(encoding="utf-8")
-        for path in ROOT.rglob("*.md")
+        for path in repository_markdown()
     )
     assert "[TODO" not in markdown, "unfinished TODO placeholder found"
 
-    for path in ROOT.rglob("*.md"):
+    for path in repository_markdown():
         content = path.read_text(encoding="utf-8")
         assert content.endswith("\n"), f"missing final newline: {path.relative_to(ROOT)}"
         for number, line in enumerate(content.splitlines(), start=1):
@@ -70,7 +77,7 @@ def validate_template_and_examples() -> None:
         assert f"**{field}:**" in template, f"template missing {field}"
 
     minimal_example = read("examples/minimal.PATCH.md")
-    for upstream_field in ("Repository:", "Branch:"):
+    for upstream_field in ("Repository:", "Branch:", "PatchMD version:"):
         for name, content in (
             ("template", template),
             ("minimal example", minimal_example),
