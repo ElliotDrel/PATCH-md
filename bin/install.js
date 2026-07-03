@@ -23,6 +23,34 @@ if (unknown.length) {
   console.error(`Unknown option: ${unknown[0]}. Run patchmd --help for usage.`);
   process.exit(2);
 }
+if (!fs.existsSync(path.join(repo, '.git'))) {
+  console.error('Run patchmd from a Git repository root.');
+  process.exit(1);
+}
+
+function lstat(pathname) {
+  try {
+    return fs.lstatSync(pathname);
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
+function assertPlainParents(dest) {
+  let current = path.dirname(dest);
+  const parents = [];
+  while (current !== repo && current.startsWith(`${repo}${path.sep}`)) {
+    parents.push(current);
+    current = path.dirname(current);
+  }
+  for (const parent of parents.reverse()) {
+    const stat = lstat(parent);
+    if (stat?.isSymbolicLink()) {
+      throw new Error(`Refusing to write through linked directory: ${path.relative(repo, parent)}`);
+    }
+  }
+}
 
 function files(dir, base = dir) {
   if (!fs.existsSync(dir)) return [];
@@ -77,20 +105,25 @@ function assertSafeDestination(src, dest, label) {
 }
 
 function assertSafeFile(src, dest, label) {
-  if (!fs.existsSync(dest) || fs.readFileSync(src).equals(fs.readFileSync(dest)) || force) return;
+  const stat = lstat(dest);
+  if (!stat || force) return;
+  if (stat.isSymbolicLink()) throw new Error(`${label} is a link. Re-run with --force to replace the link itself.`);
+  if (fs.readFileSync(src).equals(fs.readFileSync(dest))) return;
   throw new Error(`${label} contains local changes. Re-run with --force to replace it.`);
 }
 
 // Preflight every destination before writing anything.
 for (const name of SKILLS) {
+  assertPlainParents(canonicalTarget(name));
   assertSafeDestination(path.join(pkgRoot, 'skills', name), canonicalTarget(name), `.agents/skills/${name}`);
   const claude = path.join(repo, '.claude', 'skills', name);
+  assertPlainParents(claude);
   if (fs.existsSync(claude)) {
     const stat = fs.lstatSync(claude);
     if (stat.isSymbolicLink()) {
-      const actual = fs.realpathSync(claude);
-      const expected = fs.realpathSync(canonicalTarget(name));
-      if (actual !== expected && !force) throw new Error(`.claude/skills/${name} points elsewhere. Re-run with --force to replace it.`);
+      const target = canonicalTarget(name);
+      const pointsToCanonical = fs.existsSync(target) && fs.realpathSync(claude) === fs.realpathSync(target);
+      if (!pointsToCanonical && !force) throw new Error(`.claude/skills/${name} points elsewhere. Re-run with --force to replace it.`);
     } else {
       assertSafeDestination(path.join(pkgRoot, 'skills', name), claude, `.claude/skills/${name}`);
     }
@@ -98,10 +131,12 @@ for (const name of SKILLS) {
 }
 const templateSource = path.join(pkgRoot, 'template', 'PATCH.md');
 const templateTarget = path.join(repo, '.agents', 'patchmd', 'PATCH.md');
+assertPlainParents(templateTarget);
 assertSafeFile(templateSource, templateTarget, '.agents/patchmd/PATCH.md');
 
 for (const name of SKILLS) replaceDir(path.join(pkgRoot, 'skills', name), canonicalTarget(name));
 fs.mkdirSync(path.join(repo, '.agents', 'patchmd'), { recursive: true });
+if (lstat(templateTarget)?.isSymbolicLink()) fs.rmSync(templateTarget, { force: true });
 fs.copyFileSync(templateSource, templateTarget);
 
 function link(name) {

@@ -3,6 +3,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const test = require('node:test');
 
 const root = path.resolve(__dirname, '..');
@@ -27,13 +28,12 @@ function read(relative) {
   return fs.readFileSync(path.join(root, relative), 'utf8');
 }
 
-function markdown(dir = root) {
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    if (entry.name === '.git' || entry.name === 'node_modules') return [];
-    const absolute = path.join(dir, entry.name);
-    if (entry.isDirectory()) return markdown(absolute);
-    return entry.name.endsWith('.md') ? [absolute] : [];
-  });
+function markdown() {
+  return execFileSync('git', ['ls-files', '*.md'], { cwd: root, encoding: 'utf8' })
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((relative) => path.join(root, relative))
+    .filter((absolute) => fs.existsSync(absolute));
 }
 
 test('repository contains complete, clean Markdown', () => {
@@ -53,10 +53,10 @@ test('repository contains complete, clean Markdown', () => {
 
 test('template and examples contain the required record shape', () => {
   const template = read('template/PATCH.md');
-  for (const heading of ['## Upstream', '## Active customizations', '## Retired customizations']) assert.match(template, new RegExp(heading));
+  for (const heading of ['## Upstream', '## Verification', '## Active customizations', '## Retired customizations']) assert.match(template, new RegExp(heading));
   for (const field of fields) assert.match(template, new RegExp(`\\*\\*${field}:\\*\\*`));
   const minimal = read('examples/minimal.PATCH.md');
-  for (const marker of ['Repository:', 'Branch:', 'No active customizations.', 'No retired customizations.']) assert.match(minimal, new RegExp(marker));
+  for (const marker of ['Repository:', 'Branch:', '## Verification', 'No active customizations.', 'No retired customizations.']) assert.match(minimal, new RegExp(marker));
   const active = read('examples/customization.PATCH.md');
   const retired = read('examples/retired-fix.PATCH.md');
   for (const field of fields) {
@@ -67,7 +67,7 @@ test('template and examples contain the required record shape', () => {
   assert.match(retired, /\*\*Status:\*\* retired/);
 });
 
-test('skills retain their names and safety guarantees', () => {
+test('skills retain their names and documented safety rules', () => {
   for (const name of ['install-patch-md', 'modify-with-patch-md', 'update-with-patch-md']) {
     const source = read(`skills/${name}/SKILL.md`);
     const frontmatter = source.match(/^---\n([\s\S]*?)\n---\n/);
@@ -78,5 +78,16 @@ test('skills retain their names and safety guarantees', () => {
   const install = read('skills/install-patch-md/SKILL.md').replace(/\s+/g, ' ');
   for (const marker of ['.agents/skills/', 'Propose the wiring', 'assets/agent-instructions.md', 'assets/pre-commit.sh', 'assets/patchmd-ci.yml']) assert.ok(install.includes(marker), `install skill missing: ${marker}`);
   const update = read('skills/update-with-patch-md/SKILL.md').replace(/\s+/g, ' ');
-  for (const marker of ['Never discard uncommitted work', 'recoverable Git ref', 'exact Git blob bytes', 'Ask before reconstructing', 'Roll back', 'Stop before push', 'Follow any update flow']) assert.ok(update.includes(marker), `update skill missing: ${marker}`);
+  for (const marker of [
+    'Never discard uncommitted work',
+    'recoverable Git ref',
+    'exact Git blob bytes',
+    'downstream deleted it, write no file',
+    'upstream-based side with `--ours`',
+    'Ask before reconstructing',
+    'Roll back',
+    'Stop before push',
+    '`--force-with-lease`',
+    'Follow any update flow',
+  ]) assert.ok(update.includes(marker), `update skill missing: ${marker}`);
 });

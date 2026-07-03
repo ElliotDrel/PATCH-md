@@ -9,6 +9,13 @@ survive an upstream update.
 - Repository: `https://github.com/OWNER/REPOSITORY`
 - Branch: `main`
 
+## Verification
+
+Commands that must pass after a customization or upstream update:
+
+- Install: `COMMAND`
+- Check: `COMMAND`
+
 ## Active customizations
 
 <!-- Copy this section for each customization. Use a stable kebab-case ID. -->

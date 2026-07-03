@@ -1,7 +1,7 @@
-# PatchMD Draft 0.2
+# PatchMD Draft 0.2.1
 
-PatchMD is an AI-readable record of the intent behind deliberate customizations
-to a downstream software fork.
+PatchMD is a human- and AI-readable record of the intent behind deliberate
+customizations to a downstream software fork.
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** describe this
 draft's requirements.

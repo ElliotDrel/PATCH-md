@@ -31,8 +31,8 @@ any update flow that install wired in. Honor the answers; keep the hard rules.
 
 Read the repository instructions and `PATCH.md`. Confirm the repository root and
 branch, a clean working tree (stop if dirty — hard rule 1), the upstream remote
-and branch, the active entries, and the verification commands (see Project
-configuration below if present).
+and branch, the active entries, and the commands in root `PATCH.md`'s
+`Verification` section.
 
 Fetch upstream. If there are no new upstream commits, report that and stop.
 Create `backup/pre-patchmd-update-<timestamp>` at HEAD and record its exact
@@ -46,12 +46,13 @@ the audit; Git may skip patches upstream already contains.
 For each content conflict:
 
 1. Record `REBASE_HEAD`, its subject, and every unmerged path.
-2. Save the pre-update version from the backup ref to a timestamped backup
-   directory outside the worktree, using a binary-safe method (for example
-   `git cat-file` into a file) that preserves exact Git blob bytes.
-3. Keep the rebased side for the path (`--theirs` is the original downstream
-   patch; `--ours` is upstream plus replayed patches). Prefer upstream —
-   `--ours` — when a conflict cannot be resolved safely.
+2. Check whether the path exists in the backup ref before writing its blob. If
+   it exists, save its exact bytes outside the worktree with `git cat-file`. If
+   downstream deleted it, write no file and record that deletion in the
+   manifest. Never treat a failed command or empty redirect as a valid backup.
+3. After the backup, keep the upstream-based side with `--ours` as the safe
+   baseline. Preserve the downstream intent for the audit instead of restoring
+   old text during the rebase. (`--theirs` is the downstream patch.)
 4. Continue the rebase, or skip the commit if keeping upstream makes it empty.
 5. Repeat until the rebase finishes.
 
@@ -84,4 +85,6 @@ locations. Do not delete the backup ref or backup files automatically.
 Report the upstream commits received, downstream commits replayed or skipped,
 customizations preserved, reconstructed, retired, or left unresolved, the
 verification results, the backup locations, and the resulting branch state.
-Stop before push or deployment unless the user explicitly approves it.
+Stop before push or deployment unless the user explicitly approves it. Because
+the rebase rewrote history, re-fetch the tracking remote and use
+`--force-with-lease`, never `--force`; stop if the lease fails.

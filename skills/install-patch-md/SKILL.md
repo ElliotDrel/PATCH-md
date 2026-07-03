@@ -69,10 +69,8 @@ After approval:
 1. Create root `PATCH.md` from `.agents/patchmd/PATCH.md`. Record the upstream
    repository and branch. Add the approved active entries; leave a short
    "No ... customizations." line where a section is empty.
-2. Append a short "Project configuration" section to the installed
-   `modify-with-patch-md` and `update-with-patch-md` skills recording the
-   upstream ref and the exact verification commands. Do not rewrite their
-   workflow.
+2. Record the exact verification commands in root `PATCH.md` under
+   `Verification`. Do not edit the installed skill files.
 3. Apply the approved triggers and update-flow edits, with the upstream ref
    filled in and any hook made executable.
 4. Re-read everything you wrote and confirm no placeholders remain.

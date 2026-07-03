@@ -39,9 +39,9 @@ multiple files or commits when they serve one intent.
 
 ## 3. Verify
 
-Run the fork's configured checks (see the Project configuration section below if
-present). Re-read the diff and the `PATCH.md` entry to confirm they describe the
-same behavior. Fix failures caused by your change.
+Run the commands in root `PATCH.md`'s `Verification` section. Re-read the diff
+and the `PATCH.md` entry to confirm they describe the same behavior. Fix
+failures caused by your change.
 
 ## 4. Commit and report
 

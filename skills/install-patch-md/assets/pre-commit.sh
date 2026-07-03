@@ -7,13 +7,13 @@
 UPSTREAM_REF="__UPSTREAM_REF__"   # set by the installer, e.g. upstream/main
 
 # Recording intent in the same commit clears the warning.
-git diff --cached --name-only --diff-filter=ACMRD | grep -qx 'PATCH.md' && exit 0
+git -c core.quotePath=false diff --cached --name-only --diff-filter=ACMRD -M | grep -qxF 'PATCH.md' && exit 0
 
 base=$(git merge-base HEAD "$UPSTREAM_REF" 2>/dev/null) || exit 0
 [ -z "$base" ] && exit 0
 
 # A staged file that already exists in the upstream merge base is upstream-owned.
-owned=$(git diff --cached --name-only --diff-filter=ACMRD | while IFS= read -r f; do
+owned=$(git -c core.quotePath=false diff --cached --name-only --diff-filter=ACMRD -M | while IFS= read -r f; do
   git cat-file -e "$base:$f" 2>/dev/null && printf '  %s\n' "$f"
 done)
 [ -z "$owned" ] && exit 0

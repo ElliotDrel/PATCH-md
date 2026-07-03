@@ -43,7 +43,7 @@ The skill installs itself first, then runs. Give your agent this prompt:
 
 ```text
 Read and follow this skill, then set up PatchMD in this repo:
-https://raw.githubusercontent.com/ElliotDrel/PATCH-md/v0.2.0/skills/install-patch-md/SKILL.md
+https://raw.githubusercontent.com/ElliotDrel/PATCH-md/v0.2.1/skills/install-patch-md/SKILL.md
 ```
 
 If the skills are already in the repo, this is all you need:
@@ -86,7 +86,7 @@ commits when they implement one customization.
 
 ## Specification
 
-[SPEC.md](SPEC.md) defines Draft 0.2. The format is intentionally small:
+[SPEC.md](SPEC.md) defines Draft 0.2.1. The format is intentionally small:
 
 - one root `PATCH.md`;
 - one stable ID per customization;
@@ -99,7 +99,7 @@ See [examples/](examples/) for complete files.
 ## Design documentation
 
 - [The PatchMD mentality](docs/MENTALITY.md) explains the principles and the
-  boundaries behind the standard.
+  boundaries behind the convention.
 - [Origins and inspiration](docs/ORIGINS.md) traces the idea to
   [Theo Browne (`@t3dotgg`)](https://github.com/t3dotgg), his
   [original video](https://www.youtube.com/watch?v=G1xqTjoihfo&t=1970s), and
@@ -109,7 +109,7 @@ See [examples/](examples/) for complete files.
 
 ## Status
 
-Draft 0.2 is open for practical feedback from people maintaining downstream
+Draft 0.2.1 is open for practical feedback from people maintaining downstream
 forks. The format will change only when real use exposes a problem.
 
 ## License
