@@ -106,6 +106,10 @@ See [examples/](examples/) for complete files.
   related conventions.
 - [The gbrain reference implementation](docs/GBRAIN-REFERENCE.md) documents the
   exact working fork workflow that informed the first draft.
+- [Development guide](docs/DEVELOPMENT.md) explains repository structure,
+  validation, and design boundaries.
+- [Release guide](docs/RELEASING.md) documents npm trusted publishing and the
+  verified release process.
 
 ## Status
 

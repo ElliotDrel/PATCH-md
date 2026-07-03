@@ -11,3 +11,7 @@ Before proposing a change:
 4. Run `npm test`.
 
 Bug reports and examples from maintained downstream forks are especially useful.
+
+See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for repository structure,
+validation expectations, and design boundaries. Release maintainers should also
+read [docs/RELEASING.md](docs/RELEASING.md).
