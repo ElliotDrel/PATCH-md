@@ -1,7 +1,6 @@
 # PatchMD
 
-PatchMD is a versioned draft convention for keeping customized software
-updatable.
+PatchMD is a draft convention for keeping customized software updatable.
 
 A root `PATCH.md` records the **intent** behind deliberate changes made to a
 fork. The code and Git commits remain the implementation. The document gives a
@@ -12,8 +11,7 @@ changes when upstream moves on.
 customize -> record intent -> update upstream -> repair if needed -> review
 ```
 
-PatchMD 0.2 is ready for structured trials in maintained downstream forks. It
-remains a draft until the graduation criteria below are met.
+PatchMD is a proposal, not an established standard.
 It is inspired by [Theo's "A letter to tech CEOs" talk](https://www.youtube.com/watch?v=G1xqTjoihfo),
 the predictable-file approach of [AGENTS.md](https://agents.md/), and a working
 fork-maintenance workflow first developed in
@@ -109,20 +107,10 @@ See [examples/](examples/) for complete files.
 - [The gbrain reference implementation](docs/GBRAIN-REFERENCE.md) documents the
   exact working fork workflow that informed the first draft.
 
-## Status and graduation
+## Status
 
-Draft 0.2 is open for practical feedback. PatchMD will graduate to 1.0 after:
-
-- two maintained forks outside the reference implementation complete an
-  install, customization, upstream update, conflict reconstruction, and patch
-  retirement cycle;
-- the maintainers publish the results and resolve any specification ambiguity
-  those trials expose;
-- the installer and workflow assets pass the supported-platform test matrix;
-- no known issue can cause uncommitted work or fork intent to be lost.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the proposal process and
-[CHANGELOG.md](CHANGELOG.md) for compatibility notes.
+Draft 0.2 is open for practical feedback from people maintaining downstream
+forks. The format will change only when real use exposes a problem.
 
 ## License
 

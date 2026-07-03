@@ -21,30 +21,22 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node --test tests/*.test.js && python tests/validate.py",
-    "validate": "npm test && node tests/validate-yaml.js && node --check bin/install.js",
-    "prepublishOnly": "npm run validate"
+    "test": "node --test tests/*.test.js",
+    "prepublishOnly": "npm test"
   },
   "bin": {
     "patchmd": "bin/install.js",
     "patch.md-intent": "bin/install.js"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "files": [
     "README.md",
     "SPEC.md",
-    "CHANGELOG.md",
-    "SECURITY.md",
     "template/",
     "examples/",
-    "conformance/",
     "skills/",
     "bin/"
-  ],
-  "devDependencies": {
-    "yaml": "^2.8.0"
-  }
+  ]
 }

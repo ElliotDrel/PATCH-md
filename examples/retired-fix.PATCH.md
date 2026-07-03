@@ -6,7 +6,6 @@ This file records the intent behind deliberate customizations to this fork.
 
 - Repository: `https://github.com/example/notes-app`
 - Branch: `main`
-- PatchMD version: `0.2`
 
 ## Active customizations
 
