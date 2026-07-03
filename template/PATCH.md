@@ -29,6 +29,8 @@ Commands that must pass after a customization or upstream update:
 - **Scope:** Which files, packages, or subsystems are involved?
 - **Reconstruction:** How should a future developer or agent rebuild the intent
   on newer upstream code? Include constraints, not a full code patch.
+- **Retire when:** Optional for temporary fixes. What observable check proves
+  upstream now satisfies this intent?
 - **References:** Optional commits, issues, or upstream pull requests.
 
 ## Retired customizations

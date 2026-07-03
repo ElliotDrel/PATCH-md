@@ -55,6 +55,7 @@ test('template and examples contain the required record shape', () => {
   const template = read('template/PATCH.md');
   for (const heading of ['## Upstream', '## Verification', '## Active customizations', '## Retired customizations']) assert.match(template, new RegExp(heading));
   for (const field of fields) assert.match(template, new RegExp(`\\*\\*${field}:\\*\\*`));
+  assert.match(template, /\*\*Retire when:\*\*/);
   const minimal = read('examples/minimal.PATCH.md');
   for (const marker of ['Repository:', 'Branch:', '## Verification', 'No active customizations.', 'No retired customizations.']) assert.match(minimal, new RegExp(marker));
   const active = read('examples/customization.PATCH.md');
@@ -88,6 +89,7 @@ test('skills retain their names and documented safety rules', () => {
     'Roll back',
     'Stop before push',
     '`--force-with-lease`',
+    '`Retire when` check',
     'Follow any update flow',
   ]) assert.ok(update.includes(marker), `update skill missing: ${marker}`);
 });

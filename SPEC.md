@@ -43,8 +43,10 @@ Each entry MUST contain:
   newer upstream code.
 
 An entry MAY include implementation notes and links to commits, issues, or
-upstream pull requests. It SHOULD NOT contain a full source patch. One entry MAY
-cover multiple files or commits when they serve one intent.
+upstream pull requests. A temporary downstream fix SHOULD include **Retire
+when:** an observable check that shows when upstream satisfies the intent. An
+entry SHOULD NOT contain a full source patch. One entry MAY cover multiple files
+or commits when they serve one intent.
 
 ## Lifecycle
 
@@ -86,7 +88,8 @@ MUST be shown to the user instead of guessed.
 
 When upstream satisfies an intent or the customization is abandoned, its entry
 MUST be marked `retired` rather than deleted. The reason and relevant upstream
-reference SHOULD be recorded.
+reference SHOULD be recorded. Evaluate `Retire when` before reconstructing a
+temporary fix on new upstream code.
 
 ## Review
 

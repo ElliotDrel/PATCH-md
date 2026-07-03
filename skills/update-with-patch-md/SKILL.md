@@ -64,7 +64,8 @@ an unsupported rebase state, abort and restore the backup ref.
 
 Review every active `PATCH.md` entry against the new upstream code, including
 entries that replayed cleanly. Classify each as preserved, already satisfied
-upstream, needs reconstruction, or ambiguous.
+upstream, needs reconstruction, or ambiguous. For a temporary fix with a
+`Retire when` check, evaluate that check before reconstructing it.
 
 Show the evidence and ask for approval before changing code or retiring an
 entry. Honor partial approval. For approved reconstruction, compare the new

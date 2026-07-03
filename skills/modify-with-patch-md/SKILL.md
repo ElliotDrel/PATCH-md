@@ -32,6 +32,7 @@ update one feature-centered `PATCH.md` entry containing:
 - **Behavior**
 - **Scope**
 - **Reconstruction**
+- optional **Retire when** for temporary fixes
 - optional **References**
 
 Describe outcomes and constraints, not a copy of the code. One entry may cover
